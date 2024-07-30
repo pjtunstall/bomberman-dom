@@ -1,33 +1,32 @@
-# Plan for adding the framework
+# Original plan for adding the framework
 
-[1. Overview](#1-overview)
+[0. Overview](#0-overview)
+
+[1. Original plan](#1-earlier-plan)
 
 [2. Event listeners](#2-event-listeners)
 
 [3. Elements and code that affects them](#3-elements-and-code-that-affects-them)
 
-## 1. Overview
+## 0. Overview
 
-I suggest we just framework the game itself, rather than the intro. Easiest of all would be to take `game-grid` as the root node of our frameworked app. We could, as others have done, just use the framework to create the elements and render them initially. Routing is irrelevant: we don't want players being able to navigate at will between different phases of the game.
+After talking to others, I decided to just use the framework to set up the grid initially, taking `game-grid` as the root node of (frameworked part of) the app. That satisfies the audit. Integrating it thoroughly would make the game less performant, but in case anyone is interested in doing something in this direction as an exercise, here is my earlier plan together with a guide to the DOM-related material in the game itself. Further steps that could be taken include:
+
+- Rewrite all code that affects the DOM to only modify the virtual DOM.
+- Think of any suitable state variables that we want to trigger automatic updates, e.g. position and direction. We also have the option (escape hatch) of being able to simply call the `update()` method on the app, but we should try to maintain or recreate batching of updates. Caution: pass `update()` to `requestAnimationFrame` (or call it from the game loop) to ensure that the event handler has a chance to make all of its changes to the virtual DOM before diff and reconciliation.
+- Make sure that updates are called whenever necessary.
+
+A smaller-scale project might be to replace `dummyState` with a state object containing all components of position and direction for each player. We'd need to make sure that the updates automatically performed by `overReact` in response to any change to these values are rate-limited. Compare how the current game loop prevents updates from happening more often for clients with a higher frame-rate. Although the server controls the timing of movements from cell to cell, the clientside JavaScript is still responsible for the walking animation.
+
+## 1. Original plan
+
+I suggest we just framework the game itself, rather than the intro. Easiest of all would be to take `game-grid` as the root node of our frameworked app. (Other candidates are `game` and `grid-wrapper`.) We could, as others have done, just use the framework to create the elements and render them initially. Routing is irrelevant: we don't want players being able to navigate at will between different phases of the game.
 
 As a first step, here is a catalogue of all the DOM stuff: all DOM elements and variables that refer to them, all lines that affect the DOM, and all event handlers.
 
 As it turns out, `overReact`'s event delegation system is indeed an overreaction in this case. The only event handler that's attached to a descendant of `game` (a plausible root element for our app) is the `animationend` handler, which removes the "breakable-block-destruction" class from a block at the end of its destruction animation. The keypress handlers are attached to `document`, and the other event handlers are all for the socket. For the sake of the exercise, we could shoehorn that little `animationend` handler into being centrally delegated, but it's hardly worth it.
 
 Therefore this catalog of event handlers is just for the sake of identifying DOM elements and places where the DOM is modified.
-
-A more thorough version would need the following:
-
-- Make sure every element has a unique id. (Done.)
-- Create the virtual nodes and combine them to make the app.
-- Rewrite all code that affects the DOM to only modify the virtual DOM.
-- Think of any suitable state variables that we want to trigger automatic updates, e.g. position and direction. We also have the option (escape hatch) of being able to simply call the `update()` method on the app, but we should try to maintain or recreate batching of updates. Caution: pass `update()` to `requestAnimationFrame` (or call it from the game loop) to ensure that the event handler has a chance to make all of its changes to the virtual DOM before diff and reconciliation.
-- Make sure that updates are called whenever necessary.
-
-A simple version, whhich I recommend, would only need:
-
-- Make sure every element has a unique id. (Done.)
-- Build grid and render via framework.
 
 ## 2. Event handlers
 
