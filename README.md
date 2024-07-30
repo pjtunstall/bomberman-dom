@@ -13,13 +13,15 @@
 
 To run the server, install Node dependencies: `npm install`. If it reports any vulnerabilities, `npm audit fix`, as directed. Then `node server.js` to run the server on port 3000.
 
-The server will log its IP address in the terminal. To connect over a mobile hotspot, players can enter that address in their browser.
+The server will log its IP address in the terminal. To connect over a mobile hotspot, players can enter that address into their browser.
 
 ## Progress
 
+I think we can call it done.
+
 The multiplayer Bomberman game is working in Chrome, Brave, Firefox, and Safari. Not yet tested in Edge. As in the single-player version from make-your-game, all bonus powerups are implemented except bomb-push/throw.
 
-The only essential thing left to do for the sake of he audit is to add a framework. I suggest we just framework the game itself, rather than the intro, which includes all sorts of features not required by the instructions. As a first step, I've made a [catalog](framework-plan.md) of all code in `index.html` and `main.js` that affects the game part of the DOM.
+A `mini-framework` (overReact) has been added to the version in `frame`. The famework is just being used for the intial render of the game grid. For more detail, see this [discussion](framework.md), which includes the original plan and thoughts on developing it further, together with a catalog of all code in `index.html` and `main.js` that affects the game part of the DOM. I don't see see any gain to be had from integrating it more thoroughly.
 
 Notes:
 
@@ -34,12 +36,6 @@ Notes:
 4. The instructions are ambigious as to whether "increases the amount of bombs dropped at a time by 1" and "increases explosion range from the bomb in four directions by 1 block" is in comparison to the player's baseline without powerup or their current ability. As a consequence of being able to only hold ond powerup at a time, this has been a moot point. But in case we do allow multiple powerups to be held at once, Gemini says that, indeed, the original game did allow each player to acquire an increasing numbers of bombs, up to a maximum of 10. And, "Each fire-up powerup increased the explosion radius of the bombs by one tile. There was no set limit to how many fire-up powerups could be collected, but the explosion could eventually fill the entire screen."
 
 5. As it stands, the server only allows a single instance of the game to be played at any one time. Switching to allow multiple instances would take some work.
-
-## Todo
-
-### Add framework
-
-As a first step, I've [cataloged](framework-plan.md) all code that affects the DOM subtree with `game` as its root.
 
 ### Extra
 
