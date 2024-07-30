@@ -1,14 +1,14 @@
 # Original plan for adding the framework
 
-[0. Overview](#0-overview)
+[1. Overview](#1-overview)
 
-[1. Original plan](#1-earlier-plan)
+[2. Original plan](#2-earlier-plan)
 
-[2. Event listeners](#2-event-listeners)
+[3. Event listeners](#3-event-listeners)
 
-[3. Elements and code that affects them](#3-elements-and-code-that-affects-them)
+[4. Elements and code that affects them](#4-elements-and-code-that-affects-them)
 
-## 0. Overview
+## 1. Overview
 
 After talking to others, I decided to just use the framework to set up the grid initially, taking `game-grid` as the root node of (frameworked part of) the app. That satisfies the audit. Integrating it thoroughly would make the game less performant, but in case anyone is interested in doing something in this direction as an exercise, here is my earlier plan together with a guide to the DOM-related material in the game itself. Further steps that could be taken include:
 
@@ -18,7 +18,7 @@ After talking to others, I decided to just use the framework to set up the grid 
 
 A smaller-scale project might be to replace `dummyState` with a state object containing all components of position and direction for each player. We'd need to make sure that the updates automatically performed by `overReact` in response to any change to these values are rate-limited. Compare how the current game loop prevents updates from happening more often for clients with a higher frame-rate. Although the server controls the timing of movements from cell to cell, the clientside JavaScript is still responsible for the walking animation.
 
-## 1. Original plan
+## 2. Original plan
 
 I suggest we just framework the game itself, rather than the intro. Easiest of all would be to take `game-grid` as the root node of our frameworked app. (Other candidates are `game` and `grid-wrapper`.) We could, as others have done, just use the framework to create the elements and render them initially. Routing is irrelevant: we don't want players being able to navigate at will between different phases of the game.
 
@@ -28,7 +28,7 @@ As it turns out, `overReact`'s event delegation system is indeed an overreaction
 
 Therefore this catalog of event handlers is just for the sake of identifying DOM elements and places where the DOM is modified.
 
-## 2. Event handlers
+## 3. Event handlers
 
 These include handlers for the following event types:
 
@@ -87,7 +87,7 @@ In `socket.on("game over", ...`,
 `document.removeEventListener("keydown", onKeyDown);`
 `document.removeEventListener("keyup", onKeyUp);`
 
-## 3. Elements and code that affects them
+## 4. Elements and code that affects them
 
 All the game elements defined in `index.html` are shown here. They're all labeled here by id, except for the `info-box`s, which are anonymous and labeled by class. To adapt them to `overReact`, we'd need to give them ids too. They all have tag `div`, except for `game-over`, which is a `h1`.
 
