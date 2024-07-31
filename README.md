@@ -4,18 +4,18 @@
 
 [2. Progress](#2-progress)
 
-[3. Todo](#3-todo)
+[3. Optional extras](#3-optional-extras)
 
-- [Add framework](#add-framework)
-- [Extra](#extra)
+- [Priority](#priority)
+- [Other](#other)
 
-## Setup
+## 1. Setup
 
 To run the server, install Node dependencies: `npm install`. If it reports any vulnerabilities, `npm audit fix`, as directed. Then `node server.js` to run the server on port 3000.
 
 The server will log its IP address in the terminal. To connect over a mobile hotspot, players can enter that address into their browser.
 
-## Progress
+## 2. Progress
 
 I think we can call it done.
 
@@ -37,14 +37,16 @@ Notes:
 
 5. As it stands, the server only allows a single instance of the game to be played at any one time. Switching to allow multiple instances would take some work.
 
-### Extra
+## 3. Optional extras
+
+### Priority
 
 - CHAIN EXPLOSIONS
   - Move timeout from "plant normal bomb" on client to server `plantNormalBomb` so that it has access to the timeout id. Store this id in an object in the grid: `grid[y][x].plantedBomb = { player, fireRange: player.fireRange, full, timeoutId };`. When calculating explosions, the server can then cancel timeouts and trigger explosions as needed. Consider serverside functions: `planNormalBomb`, `plantRemoteControlBomb`, `detonate`, and `addFire`; and clientside handlers for "plant normal bomb", "plant remote control bomb" (plus fuse sound-effect array for the remote control bombs), and "keydown" handler. Think especially carefully about remote control bombs and be sure to replenish the correct players' stock of bombs.
 - MULTI-POWERS
   - Allow multiple powerups to be held at once: logic, UI (e.g. put info in a margin, move grid to one side, list powerups by their symbol, distinguish between scalar--lives, bombs, fire--and boolean powers, highlight boolean powerups in your possession).
 
-### Extra-extra
+### Other
 
 - FIX/IMPROVE
   - There's often a jump where the character profile picture changes when the eyelids are still open.
