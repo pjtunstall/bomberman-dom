@@ -1,4 +1,4 @@
-import { VNode, overReact } from "./overreact/over-react.js";
+import { overReact } from "./overreact/over-react.js";
 
 // Global variables:
 // 1. Intro and general variables

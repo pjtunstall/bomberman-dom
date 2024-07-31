@@ -99,5 +99,5 @@ Notes:
   - Privately.
     - To allow friends to play remotely, as an exercise to learn about hosting, and as an experiment to see how well the networking works. Research how to host on Google App Engine and make accessible by signing in to Google. The latter would need an authentication page before the game starts.
   - Publicly.
-    - Adapt to allow multiple game instances at once. This would be a bit of work.
+    - Adapt to allow multiple game instances at once. Consider worker threads and the rooms feature of `socket.IO`.
     - Glitch has a limited free option to host a Node server. Their free option is public only, though.
